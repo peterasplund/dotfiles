@@ -1,0 +1,40 @@
+* {
+	border: none;
+	border-radius: 0;
+	font-weight: 500;
+	font-family: "SF Pro Display";
+	font-size: 14px;
+	min-height: 0;
+}
+
+window#waybar {
+	background: rgba(0, 0, 0, 0.5);
+	color: white;
+}
+
+#window {
+	font-weight: 600;
+}
+
+#workspaces button {
+	padding: 0 10px;
+	color: white;
+	border-top: 2px solid transparent;
+}
+
+#workspaces button.focused {
+	border-top: 2px solid #c95;
+}
+
+#custom-kernel,
+#custom-network,
+#custom-cpu,
+#tray,
+#clock {
+	padding: 0 5px;
+	margin: 0 2px;
+}
+
+#clock {
+	padding: 5px 10px;
+}
