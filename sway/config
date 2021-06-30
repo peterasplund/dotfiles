@@ -26,7 +26,7 @@ set $wallpaper ~/wallpaper/2.jpg
 
 # Set key repeat
 input "65261:24672:OLKB_Planck" {
-    repeat_rate 80
+  repeat_rate 80
 	repeat_delay 250
 }
 
@@ -51,7 +51,7 @@ set $term kitty
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 #set $menu wofi | dmenu | xargs swaymsg exec --
-bindsym $mod+d exec wofi --gtk_dark=true --show run
+bindsym $mod+d exec wofi --gtk_dark=true --show drun
 
 ### Output configuration
 #
@@ -256,15 +256,12 @@ client.placeholder      $base00 $base00 $base05 $base00 $base00
 client.background       $base07
 
 # Run notifications UI when starting
-exec killall mako
-exec mako -c ~/.config/mako/config
+exec_always mako -c ~/.config/mako/config
 
 # MacOS-like screenshot 
 bindsym $mod+Shift+r exec grim -g "$(slurp)" - | wl-copy -t image/png
 
 input type:pointer pointer_accel 0
-
-
 
 # Media keys
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
@@ -272,7 +269,6 @@ bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
-
 
 # Lock the screen after 30 minutes
 exec swayidle -w \
