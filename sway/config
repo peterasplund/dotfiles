@@ -27,6 +27,10 @@ set $wallpaper ~/wallpaper/2.jpg
 # Set key repeat
 input "65261:24672:OLKB_Planck" {
   repeat_rate 80
+  repeat_delay 250
+}
+input "65261:24673:OLKB_Preonic" {
+    repeat_rate 80
 	repeat_delay 250
 }
 
