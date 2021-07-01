@@ -88,9 +88,8 @@
 	" Different tab-width on YAML and Ruby files
 	autocmd FileType yaml setlocal expandtab shiftwidth=2 tabstop=2
 	autocmd FileType ruby setlocal expandtab shiftwidth=2 tabstop=2
-	autocmd FileType php setlocal expandtab shiftwidth=4 tabstop=4
 	" PHP indent is 4 spaces and remove trailing spaces
-	autocmd FileType php setlocal expandtab autoindent
+	autocmd FileType php setlocal autoindent expandtab shiftwidth=4 tabstop=4
 	autocmd FileType php autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 	" Python should be indented with spaces preferrably
 	autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4
@@ -98,7 +97,7 @@
 	autocmd FileType haskell setlocal expandtab shiftwidth=4 tabstop=4
 	autocmd FileType cabal setlocal expandtab shiftwidth=4 tabstop=4
 	" Javascript 2 spaces and automatically remove trailing spaces
-	autocmd FileType javascript setlocal expandtab shiftwidth=2 tabstop=2
+	autocmd FileType javascript setlocal autoindent expandtab shiftwidth=2 tabstop=2
 	autocmd FileType javascript autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 	" Rust automatically remove trailing spaces
 	autocmd FileType rust autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
