@@ -19,13 +19,21 @@ return require('packer').startup(function ()
   }
 
   use 'romgrk/barbar.nvim'
-  use 'neovim/nvim-lspconfig' -- LSP
+  use { 'neovim/nvim-lspconfig' } -- LSP
   -- use 'kabouzeid/nvim-lspinstall'
   use 'norcalli/nvim-colorizer.lua'
 	use 'mattn/emmet-vim'
+	use 'windwp/nvim-autopairs'
+	use 'hrsh7th/vim-vsnip'
 	use {
     'lewis6991/gitsigns.nvim',
     requires = { 'nvim-lua/plenary.nvim' }
   }
+	use {
+			"hrsh7th/nvim-compe",
+			config = function()
+					require("config-compe").config()
+			end
+	}
 end)
 

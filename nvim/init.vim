@@ -11,7 +11,7 @@
 	set binary noeol
 	let mapleader=" "
 
-	set completeopt=menu,longest,preview
+	set completeopt=menuone,noselect
 	set termguicolors
 	set mouse=a
 " }
@@ -128,20 +128,23 @@ map <Leader>k :bprevious<CR>
 map <Leader>w :bp\|bd #<CR>
 
 map <C-p> :Telescope find_files<CR>
+map <F2> :Telescope live_grep<CR>
 
 " colorscheme jellybeans
 colorscheme snazzy
 
 lua require('plugins')
 
-
 lua << EOF
 
 require'lspconfig'.pyright.setup{}
-require "lspconfig".efm.setup{}
+require "lspconfig".efm.setup{
+	filetypes = {"lua", "python", "javascriptreact", "javascript", "sh", "html", "css", "yaml", "markdown", "flow" }
+}
 require'lspconfig'.flow.setup{}
 
 EOF
 
 lua require'colorizer'.setup()
 lua require('gitsigns').setup()
+lua require('nvim-autopairs').setup()

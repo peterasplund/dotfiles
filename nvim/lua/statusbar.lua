@@ -1,3 +1,5 @@
+-- TODO: Rewrite to look like this: https://github.com/MagicDuck/dotfiles/blob/master/.config/nvim/lua/my/galaxyline/init.lua
+
 local gl = require('galaxyline')
 local gls = gl.section
 gl.short_line_list = {'LuaTree','vista','dbui'}
@@ -16,6 +18,38 @@ local colors = {
   red = '#ec5f67'
 }
 
+local get_filename = function()
+  return vim.fn.expand("%:h:t") .. "/" .. vim.fn.expand("%:t")
+end
+
+local file_readonly = function(readonly_icon)
+  if vim.bo.filetype == "help" then
+    return ""
+  end
+  local icon = readonly_icon or ""
+  if vim.bo.readonly == true then
+    return " " .. icon .. " "
+  end
+  return ""
+end
+
+local current_file_name_provider = function()
+  local file = get_filename()
+  if vim.fn.empty(file) == 1 then
+    return ""
+  end
+  if string.len(file_readonly()) ~= 0 then
+    return file .. file_readonly()
+  end
+  local icon = ""
+  if vim.bo.modifiable then
+    if vim.bo.modified then
+      return file .. " " .. icon .. "  "
+    end
+  end
+  return file .. " "
+end
+
 local buffer_not_empty = function()
   if vim.fn.empty(vim.fn.expand('%:t')) ~= 1 then
     return true
@@ -24,12 +58,6 @@ local buffer_not_empty = function()
 end
 
 gls.left[1] = {
-  FirstElement = {
-    provider = function() return '▋' end,
-    highlight = {colors.blue,colors.yellow}
-  },
-}
-gls.left[2] = {
   ViMode = {
     provider = function()
       local alias = {n = 'NORMAL',i = 'INSERT',c= 'COMMAND',v= 'VISUAL',V= 'VISUAL LINE', [''] = 'VISUAL BLOCK'}
@@ -45,16 +73,16 @@ gls.left[2] = {
     highlight = {colors.darkblue,colors.purple,'bold'},
   },
 }
-gls.left[3] ={
+gls.left[2] ={
   FileIcon = {
     provider = 'FileIcon',
     condition = buffer_not_empty,
     highlight = {require('galaxyline.provider_fileinfo').get_file_icon_color,colors.darkblue},
   },
 }
-gls.left[4] = {
+gls.left[3] = {
   FileName = {
-    provider = {'FileName','FileSize'},
+    provider = {current_file_name_provider,'FileSize'},
     condition = buffer_not_empty,
     separator = '',
     separator_highlight = {colors.purple,colors.darkblue},
@@ -62,14 +90,14 @@ gls.left[4] = {
   }
 }
 
-gls.left[5] = {
+gls.left[4] = {
   GitIcon = {
     provider = function() return '  ' end,
     condition = buffer_not_empty,
     highlight = {colors.orange,colors.purple},
   }
 }
-gls.left[6] = {
+gls.left[5] = {
   GitBranch = {
     provider = 'GitBranch',
     condition = buffer_not_empty,
@@ -85,7 +113,7 @@ local checkwidth = function()
   return false
 end
 
-gls.left[7] = {
+gls.left[6] = {
   DiffAdd = {
     provider = 'DiffAdd',
     condition = checkwidth,
@@ -93,7 +121,7 @@ gls.left[7] = {
     highlight = {colors.green,colors.purple},
   }
 }
-gls.left[8] = {
+gls.left[7] = {
   DiffModified = {
     provider = 'DiffModified',
     condition = checkwidth,
@@ -101,7 +129,7 @@ gls.left[8] = {
     highlight = {colors.orange,colors.purple},
   }
 }
-gls.left[9] = {
+gls.left[8] = {
   DiffRemove = {
     provider = 'DiffRemove',
     condition = checkwidth,
@@ -109,7 +137,7 @@ gls.left[9] = {
     highlight = {colors.red,colors.purple},
   }
 }
-gls.left[10] = {
+gls.left[9] = {
   LeftEnd = {
     provider = function() return '' end,
     separator = '',
@@ -117,19 +145,19 @@ gls.left[10] = {
     highlight = {colors.purple,colors.purple}
   }
 }
-gls.left[11] = {
+gls.left[10] = {
   DiagnosticError = {
     provider = 'DiagnosticError',
     icon = '  ',
     highlight = {colors.red,colors.bg}
   }
 }
-gls.left[12] = {
+gls.left[11] = {
   Space = {
     provider = function () return ' ' end
   }
 }
-gls.left[13] = {
+gls.left[12] = {
   DiagnosticWarn = {
     provider = 'DiagnosticWarn',
     icon = '  ',
