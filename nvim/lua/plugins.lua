@@ -26,12 +26,12 @@ return require('packer').startup(function ()
 	use 'windwp/nvim-autopairs'
 	use {
     'lewis6991/gitsigns.nvim',
-    requires = { 'nvim-lua/plenary.nvim' }
+    requires = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      require('gitsigns').setup()
+    end
   }
 	use { "hrsh7th/vim-vsnip", event = "InsertEnter" }
-	use {
-    "hrsh7th/nvim-compe",
-		config = [[require('plugin/compe')]],
-    }
-    use "ray-x/lsp_signature.nvim"
+	use { "hrsh7th/nvim-compe" }
+  use "ray-x/lsp_signature.nvim"
 end)
