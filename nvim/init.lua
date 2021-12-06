@@ -1,17 +1,13 @@
 -- Map leader to space
 vim.g.mapleader = ' '
-local fn = vim.fn
-local execute = vim.api.nvim_command
-local utils = require('utils')
 
 require('settings')
 require('plugins')
 require('lsp_lua')
 require('keymappings')
+local lspconfig = require'lspconfig'
 
-
-local function attach_lsp_keybinds(client, bufnr)
-  print("LSP binding.");
+local function attach_lsp_keybinds(_, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -37,11 +33,54 @@ local function attach_lsp_keybinds(client, bufnr)
 end
 
 --require'lspconfig'.pyright.setup{}
-require "lspconfig".efm.setup{
+lspconfig.efm.setup{
 	filetypes = {"lua", "python", "javascriptreact", "javascript", "sh", "html", "css", "yaml", "markdown"},
-  on_attach = attach_lsp_keybinds
+  on_attach = attach_lsp_keybinds,
 }
-require'lspconfig'.flow.setup{
-  on_attach = attach_lsp_keybinds
+lspconfig.flow.setup{
+  on_attach = attach_lsp_keybinds,
+  capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 }
 require "lsp_signature".on_attach()
+
+local configs = require'lspconfig/configs'    
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+if not lspconfig.emmet_ls then
+  configs.emmet_ls = {
+    default_config = {
+      cmd = {'emmet-ls', '--stdio'};
+      filetypes = {'scss', 'css'};
+      snippetSupport = true;
+      root_dir = function(_)
+        return vim.loop.cwd()
+      end;
+      settings = {};
+    };
+  }
+end
+
+--[[
+if not lspconfig.psalm_ls then
+  configs.psalm_ls = {
+    default_config = {
+      cmd = {'~/www/magento/vendor/bin/psalm-language-server', '--stdio'};
+      filetypes = {'php'};
+      snippetSupport = true;
+      root_dir = function(_)
+        return vim.loop.cwd()
+      end;
+      settings = {};
+    };
+  }
+end
+--]]
+
+lspconfig.emmet_ls.setup{
+  capabilities = capabilities;
+  on_attach = attach_lsp_keybinds;
+}
+
+--vim.opt.signcolumn = "number"

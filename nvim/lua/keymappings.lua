@@ -1,7 +1,7 @@
 local utils = require('utils')
 
 utils.map('n', '<F3>', '<cmd>noh<CR>') -- Clear highlights
-utils.map('i', 'jk', '<Esc>')           -- jk to escape
+utils.map('i', 'jj', '<Esc>')           -- jj to escape
 
 utils.map('n', '<C-m>', '<cmd>:NvimTreeToggle<CR>')
 utils.map('n', '<F4>', '<cmd>:NvimTreeFindFile<CR>')
@@ -18,3 +18,5 @@ utils.map('n', '<C-l>', '<C-w>l')
 -- Move between buffers easier
 utils.map('n', '<Leader>j', ':bnext<CR>')
 utils.map('n', '<Leader>k', ':previous<CR>')
+
+utils.map('n', '<F1>', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
